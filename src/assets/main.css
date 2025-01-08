@@ -1,0 +1,15 @@
+.header-up-extend {
+  border: 0px;
+}
+
+.header-up-data {
+  background-color: lightblue;
+}
+
+.header-up-extend .ag-header-cell-resize {
+  display: none;
+}
+
+.header-up-data .ag-header-cell-resize {
+  display: none;
+}

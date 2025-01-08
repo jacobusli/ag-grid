@@ -1,10 +1,14 @@
 <template>
   <h1 class="banner">{{ title }}</h1>
   <!-- The AG Grid component -->
-  <ag-grid-vue style="width: 100%; height: 500px" :columnDefs="colDefs" :rowData="rowData"
-    :defaultColDef="defaultColDef">
-  </ag-grid-vue>
+  <AgGridVue style="width: 100%; height: 1000px" :columnDefs="colDefs" :rowData="rowData" />
 </template>
+
+<style scoped>
+.banner {
+  background-color: antiquewhite;
+}
+</style>
 
 <script setup lang="ts" name="AgGridMultiHeaderDemo">
 import { ref } from 'vue';
@@ -16,28 +20,25 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 let title = "AgGridMultiHeaderDemo";
 
 const rowData = ref<IRow[]>([
-  { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-  { make: "Ford", model: "F-Series", price: 33850, electric: false },
-  { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-  { make: "Mercedes", model: "EQA", price: 48890, electric: true },
-  { make: "Fiat", model: "500", price: 15774, electric: false },
-  { make: "Nissan", model: "Juke", price: 20675, electric: false },
+  { FunctionCode: "Tesla", VarNo: "VarNo. Y", SI: 64950, Spec: "36", modelQty: 37 },
+  { FunctionCode: "Ford", VarNo: "F-Series", SI: 33850, Spec: "", modelQty: 0 },
+  { FunctionCode: "Toyota", VarNo: "Corolla", SI: 29600, Spec: "", modelQty: 0 },
+  { FunctionCode: "Mercedes", VarNo: "EQA", SI: 48890, Spec: "", modelQty: 0 },
 ]);
 
-const colDefs = ref<ColDef<IRow>[]>([
-  { field: "make" },
-  { field: "model" },
-  { field: "price" },
-  { field: "electric" },
+const colDefs = ref<(ColDef | ColGroupDef)[]>([
+  {
+    headerName: "",
+    headerClass: "header-up-extend",
+    children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "", headerClass: "header-up-extend", children: [{ headerName: "IPL/Prot", headerClass: "header-parent", children: [{ field: "FunctionCode" }, { field: "VarNo" }, { field: "SI" },] }] }] }] }] }] }] }] }] }],
+  }, {
+    headerName: "BODY",
+    headerClass: "header-up-data",
+    children: [{ headerName: "ENGINE", headerClass: "header-up-data", children: [{ headerName: "AXLE", headerClass: "header-up-data", children: [{ headerName: "HANDLE", headerClass: "header-up-data", children: [{ headerName: "GRADE", headerClass: "header-up-data", children: [{ headerName: "TRANS", headerClass: "header-up-data", children: [{ headerName: "YEAR", headerClass: "header-up-data", children: [{ headerName: "INTAKE", headerClass: "header-up-data", children: [{ headerName: "ZONE", headerClass: "header-up-data", children: [{ headerName: "EQUIP", headerClass: "header-up-data", children: [{ field: "Spec", }] }] }] }] }] }] }] }] }] }],
+  }, {
+    headerName: "F",
+    headerClass: "header-up-data",
+    children: [{ headerName: "CR", headerClass: "header-up-data", children: [{ headerName: "A", headerClass: "header-up-data", children: [{ headerName: "R", headerClass: "header-up-data", children: [{ headerName: "-", headerClass: "header-up-data", children: [{ headerName: "9", headerClass: "header-up-data", children: [{ headerName: "-", headerClass: "header-up-data", children: [{ headerName: "H", headerClass: "header-up-data", children: [{ headerName: "J", headerClass: "header-up-data", children: [{ headerName: "A", headerClass: "header-up-data", children: [{ headerName: "001", field: "modelQty" }] }] }] }] }] }] }] }] }] }],
+  },
 ]);
-
-const defaultColDef = {
-  flex: 1,
-};
 </script>
-
-<style scoped>
-.banner {
-  background-color: antiquewhite;
-}
-</style>
