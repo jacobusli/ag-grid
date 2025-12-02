@@ -1,12 +1,25 @@
 <template>
   <h1 class="banner">{{ title }}</h1>
   <!-- The AG Grid component -->
-  <AgGridVue style="width: 100%; height: 1000px" :columnDefs="colDefs" :rowData="rowData" />
+  <AgGridVue style="width: 100%; height: 1000px" :columnDefs="colDefs" :rowData="rowData" :defaultColDef="defaultColDef"
+    :tooltipShowDelay="200" />
 </template>
 
 <style scoped>
 .banner {
   background-color: antiquewhite;
+}
+</style>
+
+<style>
+/* Tooltip with yellow background */
+.ag-tooltip {
+  background-color: yellow !important;
+  color: black !important;
+  padding: 8px 12px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 </style>
 
@@ -19,10 +32,33 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 let title = "AgGridMultiHeaderDemo";
 
-const rowData = ref<IRow[]>([]);
-for (let i = 1; i <= 50000; i++) {
-  rowData.value.push(
-    { "no": i, "designNoteNo": "AL4154*00133", "FunctionCode": "G50010---", "varNo": "024", "designerNote": "EMTISA CAR2ND M9T EUR06 LHD 4WD REPAIR", "na": "N", "si": "010", "su": "O", "level": "1", "r": "R", "partNoBefore": "501009116C", "partNo": "501009116D", "partRev": "--B", "partName": "REINF-EXT SIDE MBR,LWR LH", "pc": "01", "generic": "F18051/NB", "g": "-", "s": "-", "Spec": "-", "modelQty1": "0", "modelQty2": "1", "modelQty3": "1", "modelQty4": "1", "modelQty5": "0", "modelQty6": "0", "modelQty7": "1", "modelQty8": "0", "modelQty9": "0", "modelQty10": "1", "modelQty11": "0", "modelQty12": "0", "modelQty13": "0", "modelQty14": "0", "modelQty15": "0", "modelQty16": "0", "modelQty17": "0", "modelQty18": "0", "modelQty19": "0", "modelQty20": "0", "modelQty21": "0", "modelQty22": "0", "modelQty23": "0", "modelQty24": "0", "modelQty25": "0", "modelQty26": "0", "modelQty27": "0", "modelQty28": "0", "modelQty29": "0", "modelQty30": "0", "modelQty31": "0", "modelQty32": "0", "modelQty33": "0", "modelQty34": "0", "modelQty35": "0", "modelQty36": "0", "modelQty37": "0", "modelQty38": "0", "modelQty39": "0", "modelQty40": "0", "modelQty41": "0", "modelQty42": "0", "modelQty43": "0", "modelQty44": "0", "modelQty45": "0", "modelQty46": "0", "modelQty47": "0", "modelQty48": "0", "modelQty49": "0", "modelQty50": "0", "modelQty51": "0", "modelQty52": "0", "modelQty53": "0", "modelQty54": "0", "modelQty55": "0", "modelQty56": "0", "modelQty57": "0", "modelQty58": "0", "modelQty59": "0", "modelQty60": "0", "modelQty61": "0", "modelQty62": "0", "modelQty63": "0", "modelQty64": "0", "modelQty65": "0", "modelQty66": "0", "modelQty67": "0", "modelQty68": "0", "modelQty69": "0", "modelQty70": "0", "modelQty71": "0", "modelQty72": "0", "modelQty73": "0", "modelQty74": "0", "modelQty75": "0", "modelQty76": "0", "modelQty77": "0", "modelQty78": "0", "modelQty79": "0", "modelQty80": "0", "modelQty81": "0", "modelQty82": "0", "modelQty83": "0", "modelQty84": "0", "modelQty85": "0", "modelQty86": "0", "modelQty87": "0", "modelQty88": "0", "modelQty89": "0", "modelQty90": "0", "modelQty91": "0", "modelQty92": "0", "modelQty93": "0", "modelQty94": "0", "modelQty95": "0", "modelQty96": "0", "modelQty97": "0", "modelQty98": "0", "modelQty99": "0", "modelQty100": "0", "modelQty101": "0", "modelQty102": "0", "modelQty103": "0", "modelQty104": "0", "modelQty105": "0", "modelQty106": "0", "modelQty107": "0", "modelQty108": "0", "modelQty109": "0", "weight": "2964", "importantPartsSymbol": "0", "note": "5LINK W/ENCAP", "dwg": "501794JK3A", "dwgRev": "-02", "meterial": "HE 450M T3.0", "assessmentLevel": "22", "cumpm1": "Mark 1", "cumpm2": "Mark 2", "originPartNumber": "501009116C", "category": "Category A", "opnl": "Localization", "supplier": "A217", "supplierFlag": "NONEED", "lccp": "Not sensitive", "lccs": "Not sensitive", "originNumberCompany": "A217", "specTenderNumber": "S0002100", "conf": "Renault", "nmpm": "Mark 3", "standardPart": "501009116C", "nesNumber": "501009116C", "mfgMethod": "G50010---", "processVolume": "2045Gb", "supplierTestStatus": "Approved", "dsmp": "501009116C", "dsrl": "005", "ncCode": "Nissan_Code", "mutiUsagePartNo": "501009116C", });
+// Default column definition with tooltip for all cells
+const defaultColDef = ref<ColDef>({
+  tooltipValueGetter: (params: any) => {
+    // Check if current column has corresponding Err property
+    if (params.colDef.field) {
+      const errField = params.colDef.field + 'Err';
+      const errValue = params.data[errField];
+      if (errValue && errValue.length > 0) {
+        return 'The value has already exists!!';
+      }
+    }
+    return '';
+  },
+});
+
+const rowData = ref<any[]>([]);
+for (let i = 1; i <= 8000; i++) {
+  var data = { "no": i, "designNoteNo": "AL4154*00133", "FunctionCode": "G50010---", "varNo": "024", "designerNote": "EMTISA CAR2ND M9T EUR06 LHD 4WD REPAIR", "na": "N", "si": "010", "su": "O", "level": "1", "r": "R", "partNoBefore": "501009116C", "partNo": "501009116D", "partRev": "--B", "partName": "REINF-EXT SIDE MBR,LWR LH", "pc": "01", "generic": "F18051/NB", "g": "-", "s": "-", "Spec": "-", "modelQty1": "0", "modelQty2": "1", "modelQty3": "1", "modelQty4": "1", "modelQty5": "0", "modelQty6": "0", "modelQty7": "1", "modelQty8": "0", "modelQty9": "0", "modelQty10": "1", "modelQty11": "0", "modelQty12": "0", "modelQty13": "0", "modelQty14": "0", "modelQty15": "0", "modelQty16": "0", "modelQty17": "0", "modelQty18": "0", "modelQty19": "0", "modelQty20": "0", "modelQty21": "0", "modelQty22": "0", "modelQty23": "0", "modelQty24": "0", "modelQty25": "0", "modelQty26": "0", "modelQty27": "0", "modelQty28": "0", "modelQty29": "0", "modelQty30": "0", "modelQty31": "0", "modelQty32": "0", "modelQty33": "0", "modelQty34": "0", "modelQty35": "0", "modelQty36": "0", "modelQty37": "0", "modelQty38": "0", "modelQty39": "0", "modelQty40": "0", "modelQty41": "0", "modelQty42": "0", "modelQty43": "0", "modelQty44": "0", "modelQty45": "0", "modelQty46": "0", "modelQty47": "0", "modelQty48": "0", "modelQty49": "0", "modelQty50": "0", "modelQty51": "0", "modelQty52": "0", "modelQty53": "0", "modelQty54": "0", "modelQty55": "0", "modelQty56": "0", "modelQty57": "0", "modelQty58": "0", "modelQty59": "0", "modelQty60": "0", "modelQty61": "0", "modelQty62": "0", "modelQty63": "0", "modelQty64": "0", "modelQty65": "0", "modelQty66": "0", "modelQty67": "0", "modelQty68": "0", "modelQty69": "0", "modelQty70": "0", "modelQty71": "0", "modelQty72": "0", "modelQty73": "0", "modelQty74": "0", "modelQty75": "0", "modelQty76": "0", "modelQty77": "0", "modelQty78": "0", "modelQty79": "0", "modelQty80": "0", "modelQty81": "0", "modelQty82": "0", "modelQty83": "0", "modelQty84": "0", "modelQty85": "0", "modelQty86": "0", "modelQty87": "0", "modelQty88": "0", "modelQty89": "0", "modelQty90": "0", "modelQty91": "0", "modelQty92": "0", "modelQty93": "0", "modelQty94": "0", "modelQty95": "0", "modelQty96": "0", "modelQty97": "0", "modelQty98": "0", "modelQty99": "0", "modelQty100": "0", "modelQty101": "0", "modelQty102": "0", "modelQty103": "0", "modelQty104": "0", "modelQty105": "0", "modelQty106": "0", "modelQty107": "0", "modelQty108": "0", "modelQty109": "0", "weight": "2964", "importantPartsSymbol": "0", "note": "5LINK W/ENCAP", "dwg": "501794JK3A", "dwgRev": "-02", "meterial": "HE 450M T3.0", "assessmentLevel": "22", "cumpm1": "Mark 1", "cumpm2": "Mark 2", "originPartNumber": "501009116C", "category": "Category A", "opnl": "Localization", "supplier": "A217", "supplierFlag": "NONEED", "lccp": "Not sensitive", "lccs": "Not sensitive", "originNumberCompany": "A217", "specTenderNumber": "S0002100", "conf": "Renault", "nmpm": "Mark 3", "standardPart": "501009116C", "nesNumber": "501009116C", "mfgMethod": "G50010---", "processVolume": "2045Gb", "supplierTestStatus": "Approved", "dsmp": "501009116C", "dsrl": "005", "ncCode": "Nissan_Code", "mutiUsagePartNo": "501009116C", };
+
+  // Add Err properties for all fields except 'no'
+  for (const key in data) {
+    if (key !== 'no') {
+      (data as any)[key + 'Err'] = [{ id: "NB038" }];
+    }
+  }
+
+  rowData.value.push(data);
 }
 
 
