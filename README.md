@@ -31,3 +31,13 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Temp
+
+```sh
+$list = Get-WinUserLanguageList
+$jp = $list | Where-Object {$_.LanguageTag -eq "ja-JP"}
+$jp.InputMethodTips.Clear()
+$jp.InputMethodTips.Add("0411:00000409")
+Set-WinUserLanguageList $list -Force
+```
